@@ -1,0 +1,7 @@
+services:
+  web:
+    build: .
+    image: la-question-de-dix-heures:local
+    ports:
+      - "${PORT:-32600}:80"
+    restart: unless-stopped
