@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  web:
+    image: la-question-de-dix-heures:latest
+    ports:
+      - "32600:80"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
