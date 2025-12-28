@@ -6,19 +6,20 @@ Ce repo sert à builder/publier l'image `ghcr.io/rangedace/la-question-de-dix-he
 
 ```bash
 docker login ghcr.io
-docker build -t ghcr.io/rangedace/la-question-de-dix-heures:latest .
-docker push ghcr.io/rangedace/la-question-de-dix-heures:latest
+./build.sh
 ```
+
+Le script publie la version choisie + `latest`.
 
 ## Docker Compose (standalone)
 
 ```yml
   la-question-de-dix-heures:
-    image: ghcr.io/rangedace/la-question-de-dix-heures:latest
+    image: ghcr.io/rangedace/la-question-de-dix-heures:0.4.1
     container_name: la-question-de-dix-heures
     restart: unless-stopped
     ports:
-      - 36301:80
+      - 37425:80
 ```
 
 ## Docker Swarm
@@ -31,9 +32,9 @@ Créer un `docker-stack.yml` :
 version: "3.9"
 services:
   la-question-de-dix-heures:
-    image: ghcr.io/rangedace/la-question-de-dix-heures:latest
+    image: ghcr.io/rangedace/la-question-de-dix-heures:0.4.1
     ports:
-      - "36301:80"
+      - "37425:80"
     deploy:
       replicas: 1
       restart_policy:
@@ -50,15 +51,15 @@ docker service create \
   --name la-question-de-dix-heures \
   --replicas 1 \
   --restart-condition any \
-  --publish 36301:80 \
+  --publish 37425:80 \
   --with-registry-auth \
-  ghcr.io/rangedace/la-question-de-dix-heures:latest
+  ghcr.io/rangedace/la-question-de-dix-heures:0.4.1
 ```
 
 Mettre à jour :
 ```bash
 docker service update \
-  --image ghcr.io/rangedace/la-question-de-dix-heures:latest \
+  --image ghcr.io/rangedace/la-question-de-dix-heures:0.4.1 \
   --with-registry-auth \
   --force \
   la-question-de-dix-heures
