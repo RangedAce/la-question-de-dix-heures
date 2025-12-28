@@ -12,10 +12,6 @@ require_cmd git
 require_cmd docker
 
 echo "== Sync repo =="
-git rev-parse --is-inside-work-tree >/dev/null 2>&1 || {
-  echo "Lance ce script depuis le dossier du repo git." >&2
-  exit 2
-}
 git pull --ff-only
 
 default_repo="ghcr.io/rangedace/la-question-de-dix-heures"
