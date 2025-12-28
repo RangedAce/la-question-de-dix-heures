@@ -33,8 +33,21 @@ Ce repo fournit un `Jenkinsfile` qui :
 
 ## Prérequis Jenkins
 
-- Jenkins doit avoir `docker` disponible (CLI + accès au daemon) pour builder/push l'image.
+- L'agent Jenkins doit avoir `docker` disponible (CLI + accès au daemon) pour builder/push l'image.
 - Jenkins doit pouvoir SSH vers le manager Swarm.
+
+### Jenkins dans Docker (solution au `docker: not found`)
+
+Si Jenkins tourne dans un conteneur, le plus simple est de lui donner :
+- un binaire `docker` dans l'image Jenkins
+- l'accès au daemon via le socket `/var/run/docker.sock`
+
+Exemple prêt à l'emploi : `jenkins/docker-compose.yml` et `jenkins/Dockerfile`.
+
+```bash
+cd jenkins
+docker compose up -d --build
+```
 
 ## Credentials Jenkins à créer
 

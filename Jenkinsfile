@@ -19,11 +19,7 @@ pipeline {
   }
 
   stages {
-    stage('Checkout') {
-      steps {
-        checkout scm
-      }
-    }
+    // Note: Declarative pipelines already do "Checkout SCM" automatically.
 
     stage('Compute Tag') {
       steps {
@@ -38,6 +34,17 @@ pipeline {
             env.EFFECTIVE_TAG = env.BUILD_NUMBER
           }
           env.IMAGE = "${params.IMAGE_REPO}:${env.EFFECTIVE_TAG}"
+        }
+      }
+    }
+
+    stage('Verify Docker') {
+      steps {
+        script {
+          def status = sh(script: "command -v docker >/dev/null 2>&1", returnStatus: true)
+          if (status != 0) {
+            error("Docker CLI introuvable sur l'agent Jenkins. Installe Docker (ou utilise un agent avec Docker) et donne accès au daemon (ex: mount /var/run/docker.sock).")
+          }
         }
       }
     }
