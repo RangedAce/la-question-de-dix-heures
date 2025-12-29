@@ -425,7 +425,11 @@ Quick</textarea>
       requestAnimationFrame(anim);
     }
 
-    drawWheel();
+    if (document.fonts && document.fonts.load) {
+      document.fonts.load("700 14px 'Space Grotesk'").then(drawWheel);
+    } else {
+      drawWheel();
+    }
     spinBtn.onclick = spin;
     choicesInput.oninput = drawWheel;
   </script>
